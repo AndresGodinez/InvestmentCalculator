@@ -62,7 +62,7 @@ const series = computed<SeriesPoint[]>(() => {
   return out
 })
 
-const finalPoint = computed(() => series.value.at(-1))
+const finalPoint = computed(() => series.value[series.value.length - 1])
 
 function formatMoney(value: number): string {
   return new Intl.NumberFormat('en-US', {
@@ -112,16 +112,18 @@ const dailyRows = computed(() => series.value)
 
 const weeklyRows = computed(() => {
   const out: SeriesPoint[] = []
+  const lastDay = series.value[series.value.length - 1]?.day
   for (const p of series.value) {
-    if (p.day % 7 === 0 || p.day === series.value.at(-1)?.day) out.push(p)
+    if (p.day % 7 === 0 || p.day === lastDay) out.push(p)
   }
   return out
 })
 
 const monthlyRows = computed(() => {
   const out: SeriesPoint[] = []
+  const lastDay = series.value[series.value.length - 1]?.day
   for (const p of series.value) {
-    if (p.day % 30 === 0 || p.day === series.value.at(-1)?.day) out.push(p)
+    if (p.day % 30 === 0 || p.day === lastDay) out.push(p)
   }
   return out
 })
@@ -135,7 +137,7 @@ const chart = computed(() => {
   const padding = 24
 
   const minX = data[0]!.day
-  const maxX = data.at(-1)!.day
+  const maxX = data[data.length - 1]!.day
   const minY = Math.min(...data.map((d) => d.endTotal))
   const maxY = Math.max(...data.map((d) => d.endTotal))
 
