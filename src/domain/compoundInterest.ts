@@ -1,4 +1,4 @@
-export type DayCountBasis = 360
+export type DayCountBasis = 360 | 365
 
 export interface CompoundInterestInput {
   principal?: number
@@ -14,7 +14,7 @@ export interface ProjectionPoint {
 }
 
 export function dailyGrowthFactor(annualRate: number, dayCountBasis: DayCountBasis = 360): number {
-  return Math.pow(1 + annualRate, 1 / dayCountBasis)
+  return 1 + annualRate / dayCountBasis
 }
 
 export function projectCompoundInterest(input: CompoundInterestInput): ProjectionPoint[] {

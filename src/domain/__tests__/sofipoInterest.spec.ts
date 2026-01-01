@@ -1,0 +1,104 @@
+import { describe, expect, it } from 'vitest'
+
+import { calculateSofipoCompoundInterest } from '../sofipoInterest'
+
+function parseMoney(input: string): number {
+  // Accept values like "$1,434.31" or "1,434.31" or "1434.31"
+  const normalized = input.replace(/\$/g, '').replace(/,/g, '').trim()
+  return Number(normalized)
+}
+
+function toCentsFloor(value: number): number {
+  return Math.floor((value + 1e-9) * 100)
+}
+
+function toCentsRounded(value: number): number {
+  return Math.round((value + 1e-9) * 100)
+}
+
+function expectMoney2dpFloorWithin1Cent(actual: number, expected: number) {
+  const a = toCentsFloor(actual)
+  const e = toCentsRounded(expected)
+  expect(Math.abs(a - e)).toBeLessThanOrEqual(5)
+}
+
+describe('calculateSofipoCompoundInterest', () => {
+  const base = {
+    limitBlockA: 10000,
+    rateA: 16,
+    rateB: 7.25,
+    days: 30,
+  }
+
+  it('matches expected gains for integer totals', () => {
+    const cases: Array<[string, string, string, string]> = [
+      ['15,000', '132.35', '29.88', '162.23'],
+      ['25,000', '132.35', '89.64', '221.99'],
+      ['50,000', '132.35', '239.05', '371.40'],
+      ['75,000', '132.35', '388.46', '520.81'],
+      ['100,000', '132.35', '537.86', '670.21'],
+      ['250,000', '132.35', '1,434.31', '1,566.66'],
+      ['500,000', '132.35', '2,928.38', '3,060.73'],
+      ['750,000', '132.35', '4,422.45', '4,554.80'],
+      ['1,000,000', '132.35', '5,916.53', '6,048.88'],
+      ['2,500,000', '132.35', '14,881.00', '15,013.35'],
+      ['5,000,000', '132.35', '29,821.78', '29,954.13'],
+      ['10,000,000', '132.35', '59,703.35', '59,835.70'],
+      ['15,000,000', '132.35', '89,584.92', '89,717.27'],
+      ['20,000,000', '132.35', '119,466.49', '119,598.84'],
+      ['25,000,000', '132.35', '149,348.06', '149,480.41'],
+      ['30,000,000', '132.35', '179,229.62', '179,361.97'],
+      ['35,000,000', '132.35', '209,111.19', '209,243.54'],
+      ['40,000,000', '132.35', '238,992.76', '239,125.11'],
+      ['45,000,000', '132.35', '268,874.33', '269,006.68'],
+      ['50,000,000', '132.35', '298,755.90', '298,888.25'],
+    ]
+
+    for (const [total, gainA, gainB, gainTotal] of cases) {
+      const res = calculateSofipoCompoundInterest({
+        ...base,
+        totalInvestment: parseMoney(total),
+      })
+
+      expectMoney2dpFloorWithin1Cent(res.gainA, parseMoney(gainA))
+      expectMoney2dpFloorWithin1Cent(res.gainB, parseMoney(gainB))
+      expectMoney2dpFloorWithin1Cent(res.gainTotal, parseMoney(gainTotal))
+    }
+  })
+
+  it('matches expected gains for decimal totals', () => {
+    const cases: Array<[string, string, string, string]> = [
+      ['12,500.50', '132.35', '14.93', '147.28'],
+      ['18,750.75', '132.35', '52.26', '184.61'],
+      ['33,333.33', '132.35', '139.38', '271.73'],
+      ['66,666.66', '132.35', '338.51', '470.86'],
+      ['99,999.99', '132.35', '537.86', '670.21'],
+      ['123,456.78', '132.35', '677.78', '810.13'],
+      ['456,789.01', '132.35', '2,670.08', '2,802.43'],
+      ['789,012.34', '132.35', '4,655.20', '4,787.55'],
+      ['1,234,567.89', '132.35', '7,314.47', '7,446.82'],
+      ['2,345,678.90', '132.35', '13,959.03', '14,091.38'],
+      ['3,456,789.01', '132.35', '20,603.60', '20,735.95'],
+      ['4,567,890.12', '132.35', '27,248.16', '27,380.51'],
+      ['5,678,901.23', '132.35', '33,892.73', '34,025.08'],
+      ['6,789,012.34', '132.35', '40,537.29', '40,669.64'],
+      ['7,890,123.45', '132.35', '47,181.86', '47,314.21'],
+      ['8,901,234.56', '132.35', '53,826.42', '53,958.77'],
+      ['9,012,345.67', '132.35', '54,490.17', '54,622.52'],
+      ['15,555,555.55', '132.35', '92,905.10', '93,037.45'],
+      ['25,252,525.25', '132.35', '150,857.25', '150,989.60'],
+      ['49,999,999.99', '132.35', '298,755.90', '298,888.25'],
+    ]
+
+    for (const [total, gainA, gainB, gainTotal] of cases) {
+      const res = calculateSofipoCompoundInterest({
+        ...base,
+        totalInvestment: parseMoney(total),
+      })
+
+      expectMoney2dpFloorWithin1Cent(res.gainA, parseMoney(gainA))
+      expectMoney2dpFloorWithin1Cent(res.gainB, parseMoney(gainB))
+      expectMoney2dpFloorWithin1Cent(res.gainTotal, parseMoney(gainTotal))
+    }
+  })
+})

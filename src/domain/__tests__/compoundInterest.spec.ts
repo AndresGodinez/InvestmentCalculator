@@ -3,13 +3,12 @@ import { describe, expect, it } from 'vitest'
 import { dailyGrowthFactor, projectCompoundInterest } from '../compoundInterest'
 
 describe('compoundInterest', () => {
-  it('dailyGrowthFactor matches annual rate over 360 days (approximately)', () => {
+  it('dailyGrowthFactor is 1 + annualRate/dayCountBasis', () => {
     const annualRate = 0.15
 
     const factor = dailyGrowthFactor(annualRate, 360)
-    const compounded = Math.pow(factor, 360)
 
-    expect(compounded).toBeCloseTo(1 + annualRate, 10)
+    expect(factor).toBeCloseTo(1 + annualRate / 360, 12)
   })
 
   it('projects series from day 0..N inclusive', () => {
