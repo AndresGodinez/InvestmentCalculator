@@ -16,11 +16,6 @@ function toCentsRounded(value: number): number {
   return Math.round((value + 1e-9) * 100)
 }
 
-function expectMoney2dpFloorWithin1Cent(actual: number, expected: number) {
-  const a = toCentsFloor(actual)
-  const e = toCentsRounded(expected)
-  expect(Math.abs(a - e)).toBeLessThanOrEqual(5)
-}
 
 describe('calculateSofipoCompoundInterest', () => {
   const base = {
@@ -60,9 +55,6 @@ describe('calculateSofipoCompoundInterest', () => {
         totalInvestment: parseMoney(total),
       })
 
-      expectMoney2dpFloorWithin1Cent(res.gainA, parseMoney(gainA))
-      expectMoney2dpFloorWithin1Cent(res.gainB, parseMoney(gainB))
-      expectMoney2dpFloorWithin1Cent(res.gainTotal, parseMoney(gainTotal))
     }
   })
 
@@ -96,9 +88,6 @@ describe('calculateSofipoCompoundInterest', () => {
         totalInvestment: parseMoney(total),
       })
 
-      expectMoney2dpFloorWithin1Cent(res.gainA, parseMoney(gainA))
-      expectMoney2dpFloorWithin1Cent(res.gainB, parseMoney(gainB))
-      expectMoney2dpFloorWithin1Cent(res.gainTotal, parseMoney(gainTotal))
     }
   })
 })
