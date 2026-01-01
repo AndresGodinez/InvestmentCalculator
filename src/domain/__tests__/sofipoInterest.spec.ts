@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, it } from 'vitest'
 
 import { calculateSofipoCompoundInterest } from '../sofipoInterest'
 
@@ -7,16 +7,6 @@ function parseMoney(input: string): number {
   const normalized = input.replace(/\$/g, '').replace(/,/g, '').trim()
   return Number(normalized)
 }
-
-function toCentsFloor(value: number): number {
-  return Math.floor((value + 1e-9) * 100)
-}
-
-function toCentsRounded(value: number): number {
-  return Math.round((value + 1e-9) * 100)
-}
-
-
 describe('calculateSofipoCompoundInterest', () => {
   const base = {
     limitBlockA: 10000,
@@ -54,7 +44,6 @@ describe('calculateSofipoCompoundInterest', () => {
         ...base,
         totalInvestment: parseMoney(total),
       })
-
     }
   })
 
@@ -87,7 +76,6 @@ describe('calculateSofipoCompoundInterest', () => {
         ...base,
         totalInvestment: parseMoney(total),
       })
-
     }
   })
 })
