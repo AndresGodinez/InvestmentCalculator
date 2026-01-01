@@ -1,54 +1,76 @@
 # InvestmentCalculator
 
-This template should help get you started developing with Vue 3 in Vite.
+[![CI](https://github.com/agodinez/InvestmentCalculator/actions/workflows/ci.yml/badge.svg)](https://github.com/agodinez/InvestmentCalculator/actions/workflows/ci.yml)
 
-## Recommended IDE Setup
+Calculadora web para simular **interés compuesto** y estimar el **crecimiento de una inversión** por día/semana/mes.
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Incluye un cálculo específico tipo **SOFIPO** donde el capital se divide en dos bloques con diferentes tasas:
 
-## Recommended Browser Setup
+- **Bloque A**: hasta un límite (p. ej. 10,000) con una tasa anual.
+- **Bloque B**: el excedente del límite con otra tasa anual.
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+## Funcionalidad
 
-## Type Support for `.vue` Imports in TS
+- **Cálculo por bloques (A/B)** con tasas independientes.
+- **Proyección** por día, semana y mes.
+- **Resumen** con balance final e interés ganado.
+- **Pruebas unitarias** (Vitest) para validar el dominio.
+- **CI** que valida lint, formato, types y build.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Stack
 
-## Customize configuration
+- **Vue 3** + **Vite**
+- **TypeScript**
+- **Vitest** (unit tests)
+- **ESLint** + **Prettier**
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+## Requisitos
 
-## Project Setup
+- **Node.js**: `v22.15.0` (recomendado)
+
+## Instalación
 
 ```sh
-npm install
+npm ci
 ```
 
-### Compile and Hot-Reload for Development
+## Uso
+
+### Desarrollo
 
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+### Build (producción)
 
 ```sh
 npm run build
 ```
 
-### Run Unit Tests with [Vitest](https://vitest.dev/)
+## Scripts
 
-```sh
-npm run test:unit
-```
+| Comando | Descripción |
+| --- | --- |
+| `npm run dev` | Levanta el servidor de desarrollo con Vite |
+| `npm run build` | Type-check + build de producción |
+| `npm run type-check` | Revisa tipos con `vue-tsc` |
+| `npm run test:unit` | Ejecuta pruebas unitarias con Vitest |
+| `npm run lint` | Ejecuta ESLint (con `--fix` y cache) |
+| `npm run format` | Formatea archivos con Prettier (write) |
+| `npm run format:check` | Verifica formato con Prettier (check) |
 
-### Lint with [ESLint](https://eslint.org/)
+## CI
 
-```sh
-npm run lint
-```
+El workflow de GitHub Actions (`.github/workflows/ci.yml`) corre en cada `push`/`pull_request` a `main` y ejecuta:
+
+- `npm ci`
+- `npm run lint`
+- `npm run format:check`
+- `npm run type-check`
+- `npm run test:unit`
+- `npm run build`
+
+## Notas
+
+- Los cálculos del dominio redondean a **2 decimales** (estilo “dinero”) para reportar resultados.
