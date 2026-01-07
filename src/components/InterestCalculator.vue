@@ -185,7 +185,8 @@ const chart = computed(() => {
   const maxX = data[data.length - 1]!.day
   const xSpan = Math.max(1, maxX - minX)
 
-  const yValuesTotal = chartMode.value === 'gain' ? data.map((d) => d.gainTotal) : data.map((d) => d.endTotal)
+  const yValuesTotal =
+    chartMode.value === 'gain' ? data.map((d) => d.gainTotal) : data.map((d) => d.endTotal)
   const yValuesA = chartMode.value === 'gain' ? data.map((d) => d.gainA) : data.map((d) => d.endA)
   const yValuesB = chartMode.value === 'gain' ? data.map((d) => d.gainB) : data.map((d) => d.endB)
 
@@ -210,9 +211,7 @@ const chart = computed(() => {
   }
 
   const makePath = (values: number[]) =>
-    data
-      .map((d, i) => `${toX(d.day).toFixed(2)},${toY(values[i]!).toFixed(2)}`)
-      .join(' ')
+    data.map((d, i) => `${toX(d.day).toFixed(2)},${toY(values[i]!).toFixed(2)}`).join(' ')
 
   const paths = {
     total: makePath(yValuesTotal),
@@ -232,9 +231,9 @@ const chart = computed(() => {
     yTicks.push(v)
   }
 
-  const milestones = Array.from(new Set([1, 7, 30, maxX].filter((d) => d >= minX && d <= maxX))).sort(
-    (a, b) => a - b,
-  )
+  const milestones = Array.from(
+    new Set([1, 7, 30, maxX].filter((d) => d >= minX && d <= maxX)),
+  ).sort((a, b) => a - b)
 
   const milestoneLines = milestones.map((d) => ({ day: d, x: toX(d) }))
 
@@ -497,7 +496,13 @@ function onChartClick() {
               <g v-for="d in chart.milestones" :key="`ms-${d}`">
                 <circle
                   :cx="chart.toX(d)"
-                  :cy="chart.toY(chartMode === 'gain' ? (series[d]?.gainTotal ?? 0) : (series[d]?.endTotal ?? 0))"
+                  :cy="
+                    chart.toY(
+                      chartMode === 'gain'
+                        ? (series[d]?.gainTotal ?? 0)
+                        : (series[d]?.endTotal ?? 0),
+                    )
+                  "
                   r="3"
                   fill="currentColor"
                   opacity="0.55"
@@ -534,7 +539,11 @@ function onChartClick() {
             </g>
           </svg>
 
-          <div v-if="chart.active" class="chartTooltip" :style="{ left: `${chart.active.x}px`, top: `${chart.plot.y0}px` }">
+          <div
+            v-if="chart.active"
+            class="chartTooltip"
+            :style="{ left: `${chart.active.x}px`, top: `${chart.plot.y0}px` }"
+          >
             <div class="chartTooltipTitle">
               {{ formatDayLabel(chart.active.day) }}
               <span v-if="pinnedDay != null" class="chartTooltipPinned">(fijo)</span>
