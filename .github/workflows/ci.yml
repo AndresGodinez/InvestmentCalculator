@@ -72,7 +72,8 @@ jobs:
 
       - name: Skip deploy (missing VPS_HOST)
         if: ${{ secrets.VPS_HOST == '' }}
-        run: echo "Skipping deploy: VPS_HOST secret is not set"
+        run: |
+          echo "Skipping deploy: VPS_HOST secret is not set"
 
       - name: Deploy to VPS
         if: ${{ secrets.VPS_HOST != '' }}
