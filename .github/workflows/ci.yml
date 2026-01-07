@@ -90,5 +90,5 @@ jobs:
           key: ${{ env.VPS_SSH_KEY }}
           script: |
             cd ${{ env.VPS_PATH }}
-            docker compose pull
-            docker compose up -d
+            sudo docker compose pull
+            sudo docker compose up -d
