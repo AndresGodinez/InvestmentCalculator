@@ -48,15 +48,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-<<<<<<< HEAD
-=======
       - name: Compute image tag
         id: meta
         run: |
           echo "image=ghcr.io/${GITHUB_REPOSITORY,,}:latest" >> "$GITHUB_OUTPUT"
-
->>>>>>> 14b162a (feat: add CI/CD workflow for Docker image build and deployment)
       - name: Login to GHCR
         uses: docker/login-action@v3
         with:
@@ -72,7 +67,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/${{ github.repository }}:latest
+          tags: ${{ steps.meta.outputs.image }}
 
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.0.3
