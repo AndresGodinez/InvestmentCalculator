@@ -45,7 +45,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-and-test
     environment: QA
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' && secrets.VPS_HOST != ''
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - uses: actions/checkout@v4
@@ -70,7 +70,12 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.image }}
 
+      - name: Skip deploy (missing VPS_HOST)
+        if: ${{ secrets.VPS_HOST == '' }}
+        run: echo "Skipping deploy: VPS_HOST secret is not set"
+
       - name: Deploy to VPS
+        if: ${{ secrets.VPS_HOST != '' }}
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.VPS_HOST }}
