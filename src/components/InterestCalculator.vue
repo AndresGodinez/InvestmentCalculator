@@ -289,7 +289,7 @@ function onChartClick() {
 <template>
   <div class="page">
     <div class="panel">
-      <h1>Calculadora de Interés Compuesto</h1>
+      <h1>Calculadora de Interés Compuesto.</h1>
 
       <div class="grid">
         <div class="field">
