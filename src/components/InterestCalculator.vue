@@ -126,8 +126,6 @@ const sofipoPeriodRows = computed<PeriodRow[]>(() => {
   })
 })
 
-const dailyRows = computed(() => series.value)
-
 const weeklyRows = computed(() => {
   const out: SeriesPoint[] = []
   const lastDay = series.value[series.value.length - 1]?.day
