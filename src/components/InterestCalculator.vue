@@ -631,22 +631,37 @@ function onChartClick() {
 
 <style scoped>
 .page {
+  --ic-bg: #0f172a;
+  --ic-surface: #111827;
+  --ic-surface-2: #0b1220;
+  --ic-border: rgba(148, 163, 184, 0.18);
+  --ic-text: rgba(226, 232, 240, 0.92);
+  --ic-text-muted: rgba(226, 232, 240, 0.72);
+  --ic-primary: #3b82f6;
+  --ic-accent: #8b5cf6;
+  --ic-success: #10b981;
+
   width: 100%;
   display: grid;
   gap: 16px;
+  padding: 16px;
+  border-radius: 14px;
+  background: var(--ic-bg);
+  color: var(--ic-text);
 }
 
 .panel {
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--ic-border);
   border-radius: 12px;
   padding: 16px;
-  background: var(--color-background-soft);
+  background: var(--ic-surface);
 }
 
 h1 {
   font-size: 1.4rem;
   font-weight: 600;
   margin-bottom: 12px;
+  letter-spacing: 0.2px;
 }
 
 h2 {
@@ -670,16 +685,23 @@ h2 {
 
 label {
   font-size: 0.9rem;
-  opacity: 0.85;
+  color: var(--ic-text-muted);
 }
 
 input,
 select {
-  border: 1px solid var(--color-border);
-  background: var(--color-background);
-  color: var(--color-text);
+  border: 1px solid var(--ic-border);
+  background: var(--ic-surface-2);
+  color: var(--ic-text);
   border-radius: 10px;
   padding: 10px 12px;
+  outline: none;
+}
+
+input:focus,
+select:focus {
+  border-color: rgba(59, 130, 246, 0.7);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.18);
 }
 
 .summary {
@@ -690,28 +712,33 @@ select {
 }
 
 .summaryItem {
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--ic-border);
   border-radius: 10px;
   padding: 12px;
-  background: var(--color-background);
+  background: rgba(15, 23, 42, 0.55);
 }
 
 .summaryLabel {
   font-size: 0.9rem;
-  opacity: 0.8;
+  color: var(--ic-text-muted);
 }
 
 .summaryValue {
   font-size: 1.25rem;
   font-weight: 600;
   margin-top: 6px;
+  color: var(--ic-primary);
+}
+
+.summaryItem:nth-child(2) .summaryValue {
+  color: var(--ic-success);
 }
 
 .tableWrap {
   overflow: auto;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--ic-border);
   border-radius: 10px;
-  background: var(--color-background);
+  background: rgba(15, 23, 42, 0.45);
 }
 
 table {
@@ -723,20 +750,37 @@ th,
 td {
   padding: 10px 12px;
   text-align: left;
-  border-bottom: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--ic-border);
   white-space: nowrap;
 }
 
 thead th {
-  background: var(--color-background-mute);
+  background: rgba(139, 92, 246, 0.14);
+  color: rgba(226, 232, 240, 0.9);
 }
 
 .chartWrap {
   overflow: auto;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--ic-border);
   border-radius: 10px;
-  background: var(--color-background);
+  background: rgba(15, 23, 42, 0.45);
   padding: 12px;
+}
+
+.chartWrap svg {
+  color: var(--ic-primary);
+}
+
+.chartWrap polyline {
+  stroke: var(--ic-primary);
+}
+
+.chartWrap polyline[stroke-dasharray='4 4'] {
+  stroke: var(--ic-accent);
+}
+
+.chartWrap polyline[stroke-dasharray='2 6'] {
+  stroke: var(--ic-success);
 }
 
 .chartControls {
@@ -762,12 +806,12 @@ thead th {
   transform: translateX(12px);
   min-width: 240px;
   max-width: 280px;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--ic-border);
   border-radius: 10px;
-  background: var(--color-background);
+  background: rgba(15, 23, 42, 0.92);
   padding: 10px 12px;
   pointer-events: none;
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.18);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
 }
 
 .chartTooltipTitle {
@@ -791,7 +835,7 @@ thead th {
 
 .chartTooltipDivider {
   height: 1px;
-  background: var(--color-border);
+  background: var(--ic-border);
   margin: 8px 0;
   opacity: 0.8;
 }
